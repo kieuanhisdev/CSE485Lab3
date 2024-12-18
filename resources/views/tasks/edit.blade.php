@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container">
-        <h1>Sửa Task</h1>
-        <form action="{{ route('tasks.update', $task->id) }}" method="POST">
+        <h1>Sửa nhiệm vụ</h1>
+        <form action="{{ route('tasks.update', $task) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">

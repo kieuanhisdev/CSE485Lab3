@@ -15,7 +15,7 @@ class TaskController extends Controller
     {
         //
         // $tasks = Task::all(); //
-        $tasks = Task::paginate(5); //
+        $tasks = Task::orderBy('updated_at', 'desc')->paginate(5); //
 
         return view('tasks.index', compact('tasks'));
 //        dd($tasks);
@@ -51,7 +51,7 @@ class TaskController extends Controller
         }
         Task::create($task);
 
-        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Nhiệm vụ đã được tạo thành công.');
 
     }
 
@@ -76,17 +76,24 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $task)
+    public function update(Request $request, Task $task)
     {
         //
         $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'long_description'=> 'required',
+            'completed' => 'nullable'
         ]);
+        $taskData = $request->all();
+        if ($request->has('completed')) {
+            $taskData['completed'] = true;
+        } else {
+            $taskData['completed'] = false;
+        }
+        $task->update($taskData);
 
-        $task->update($request->all());
-
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Nhiệm vụ đã được cập nhật thành công.');
 
     }
 
@@ -97,6 +104,6 @@ class TaskController extends Controller
     {
         //
         $task->delete();
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Nhiệm vụ đã được xóa thành công.');
     }
 }

@@ -3,6 +3,9 @@
 @section('content')
     <div class="container">
         <h1>Danh sách nhiệm vụ</h1>
+        @if(session('success'))
+            <div class="text-success"> {{session('success')}}</div>
+        @endif
         <a href="{{ route('tasks.create') }}" class="btn btn-primary">Thêm mới</a>
         <table class="table">
             <thead>
@@ -11,13 +14,13 @@
                     <th class="col-3">Tiêu đề</th>
                     <th class="col-6">Mô tả</th>
                     <th class="col-1">Trạng thái</th>
-                    <th class="col-1"">Hành động</th>
+                    <th class="col-1">Hành động</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($tasks as $task)
+                @foreach ($tasks as $index => $task )
                     <tr>
-                        <td>{{ $task->id }}</td>
+                        <td>{{$index+1}}</td>
                         <td>{{ $task->title }}</td>
                         <td>{{ $task->description }}</td>
                         <td>
